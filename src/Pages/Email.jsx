@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import Button from "../components/ui/Button";
 import DribbbleIcon from "../components/icons/DribbbleIcon";
 import FacebookIcon from "../components/icons/FacebookIcon";
@@ -8,63 +7,112 @@ import MailIcon from "../components/icons/MailIcon";
 import SearchIcon from "../components/icons/SearchIcon";
 import TwitterIcon from "../components/icons/TwitterIcon";
 import Favicon from '../Images/Favicon.png';
-
-
+import CameraIcon from '../components/icons/CameraIcon'; // Import the CameraIcon component
+import {Link} from 'react-router-dom';
 export default function Email() {
+ const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    // Example logic for uploading the selected file
+    if (selectedFile) {
+      // Here you can use APIs or functions to handle the file upload
+      console.log('Selected file:', selectedFile);
+      // Reset the selected file state after uploading
+      setSelectedFile(null);
+    }
+  };
+
   const [avatar, setAvatar] = useState(null);
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         setAvatar(file);
     };
+
+
   return (
     <div className="bg-white min-h-screen">
       <header className="border-b py-4 relative">
-        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-          {/* Logo */}
-          <img src={Favicon} alt="Logo" className="w-22 h-14" style={{ zIndex: 999 }} /> {/* Increased size */}
-          <div className="flex space-x-4">
-            <a className="text-gray-600 hover:text-gray-800" href="#">
-              Inspiration
-            </a>
-            <a className="text-gray-600 hover:text-gray-800" href="#">
-              Find Work
-            </a>
-            <a className="text-gray-600 hover:text-gray-800" href="#">
-              Learn Design
-            </a>
-            <a className="text-gray-600 hover:text-gray-800" href="#">
-              Go Pro
-            </a>
-            <a className="text-gray-600 hover:text-gray-800" href="#">
-              Hire Designers
-            </a>
+      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/">
+          <img src={Favicon} alt="Logo" className="w-32 md:w-40 h-12 md:h-14" style={{ zIndex: 999 }} />
+        </Link>
+        {/* Menu Toggle Button */}
+        <button onClick={toggleMenu} className="block md:hidden text-gray-600">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            {menuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            )}
+          </svg>
+        </button>
+        {/* Menu Items */}
+        <div className={`absolute top-full left-0 mt-2 bg-white w-full md:w-auto md:relative md:flex md:space-x-4 md:flex md:block ${menuOpen ? 'block' : 'hidden'}`}>
+          <Link to="#" className="block text-gray-600 hover:text-gray-800 py-2 px-4 md:py-1 md:px-2">
+            Inspiration
+          </Link>
+          <Link to="#" className="block text-gray-600 hover:text-gray-800 py-2 px-4 md:py-1 md:px-2">
+            Find Work
+          </Link>
+          <Link to="#" className="block text-gray-600 hover:text-gray-800 py-2 px-4 md:py-1 md:px-2">
+            Learn Design
+          </Link>
+          <Link to="#" className="block text-gray-600 hover:text-gray-800 py-2 px-4 md:py-1 md:px-2">
+            Go Pro
+          </Link>
+          <Link to="#" className="block text-gray-600 hover:text-gray-800 py-2 px-4 md:py-1 md:px-2">
+            Hire Designers
+          </Link>
+        </div>
+        <div className="flex items-center space-x-4 flex-grow">
+          <div className="relative flex-grow">
+            <input className="border rounded-md py-2 px-4 w-full" placeholder="Search..." type="text" />
+            <SearchIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <input className="border rounded-md py-2 px-4" placeholder="Search..." type="text" />
-              <SearchIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
-            <div className="flex items-center mb-0">
-                        <label htmlFor="avatar" className="mr-4">
-                            {avatar ? (
-                                <img src={URL.createObjectURL(avatar)} alt="Avatar Preview" className="w-20 h-20 rounded-full" />
-                            ) : (
-                                <div className="w-12 h-12 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center mr-2">
-                                    <CameraIcon className="text-gray-400 text-2xl" />
-                                </div>
-                            )}
-                        </label>
-                        <input type="file" id="avatar" accept="image/*" onChange={handleAvatarChange} className="hidden" />
-                        <button onClick={() => document.getElementById('avatar').click()} className="border border-gray-400 px-4 py-2 rounded-md bg-pink-500 hover:bg-pink-600 text-white">Upload</button>
-                        
+          {/* Avatar Upload */}
+          <div className="flex items-center mb-0">
+          <div className="w-12 md:w-14 h-12 md:h-14 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center mb-0 mt-0 md:mb-0 mr-0 md:mr-2">
+                        {avatar ? (
+                            <img src={URL.createObjectURL(avatar)} alt="Avatar Preview" className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                            <CameraIcon onClick={() => document.getElementById('avatar').click()} />
+                        )}
                     </div>
-            {/* <Button className="bg-pink-500 hover:bg-pink-600 text-white">Upload</Button> */}
+                    <input type="file" id="avatar" accept="image/*" onChange={handleAvatarChange} className="hidden" />
+                        <button onClick={() => document.getElementById('avatar').click()} className="border border-gray-400 px-4 py-2 rounded-md mb-0 md:mb-0 md:ml-2 bg-pink-500 hover:bg-pink-600 text-white" >Upload</button>
           </div>
         </div>
-      </header>
-      {/* Main content */}
-      <main className="py-16">
+      </div>
+    </header>
+       {/* Main content */}
+       <main className="py-16">
         <div className="max-w-4xl mx-auto text-center">
           <MailIcon className="mx-auto text-pink-500 w-16 h-16" />
           <h1 className="text-3xl font-bold my-6">Please verify your email...</h1>
@@ -83,10 +131,10 @@ export default function Email() {
       {/* Footer */}
       <footer className="border-t py-8">
         <div className="max-w-6xl text-left mx-auto px-4 grid grid-cols-2 md:grid-cols-6 gap-8">
-        <div>
-        <div className="w-18 mb-4 ml-0 items-center">
-            <img src={Favicon} alt="Footer Logo" />
-          </div>
+          <div>
+            <div className="w-18 mb-4 ml-0 items-center">
+              <img src={Favicon} alt="Footer Logo" />
+            </div>
             <p className="text-gray-500 text-sm">
               Dribbble is the world's leading community for creatives to share, grow, and get hired.
             </p>
@@ -320,35 +368,21 @@ export default function Email() {
               </li>
             </ul>
           </div>
-        
+
         </div>
         <div className="text-center text-gray-500 text-sm mt-8">
           <p>© 2023 Dribbble. All rights reserved.</p>
           <p>20,501,853 shots dribbbled</p>
         </div>
       </footer>
-      
     </div>
   );
 }
 
-function CameraIcon(props) {
-  return (
-      <svg
-          {...props}
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-      >
-          <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-          <circle cx="12" cy="13" r="3" />
-      </svg>
-  );
-}
-   
+
+
+
+
+
+
+

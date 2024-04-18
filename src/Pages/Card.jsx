@@ -30,13 +30,13 @@ export default function Component() {
             image={Imgfirst}
             alt="Alt text for image 1"
             title="I’m a designer looking to share my work"
-            description="Hundreds of millions of people look for design inspiration and feedback on Dribbble. We help players like you share small screenshots (shots) to show off your current projects, boost your portfolio, and love what you do—no matter what kind of creative professional you are."
+            description="Hundreds of millions of people look for design inspiration and feedback on Dribbble."
             setShowText={setShowText}
           />
           <OptionCard
             image={Imgsecond}
             alt="Alt text for image 2"
-            title="I’m looking to hire a designer"
+            title="I’m looking to hire a good designer"
             description="Dribbble is the leading destination to find & showcase creative work and home to the world's best design professionals."
             setShowText={setShowText}
           />
@@ -44,14 +44,14 @@ export default function Component() {
             image={Imgthird}
             alt="Alt text for image 3"
             title="I’m looking for design inspiration"
-            description="With over 7 million shots from a vast community of designers, Dribble is the leading source from design inspiration."
+            description="With over 7 million shots from a vast community of designers, Dribble is the leading source for design inspiration."
             setShowText={setShowText}
           />
         </div>
         <div className="text-center">
           {showText && <p className="mb-4">Anything else? You can select multiple</p>}
           <Link to="/email">
-            <Button className="bg-pink-500 text-white px-6 py-2 rounded-md">Finish</Button>
+            <Button className="text-white rounded-md py-2 px-4 w-32 md:w-48">Finish</Button>
           </Link>
           <Link to="/profile">
             <p className="text-sm text-gray-500 mt-4">or Press RETURN</p>
@@ -83,10 +83,11 @@ function OptionCard({ image, alt, title, description, setShowText }) {
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{ maxWidth: '250px' }} // Adjust max-width to decrease card size
     >
-      <img src={image} alt={alt} className="h-40 w-auto object-cover mx-auto mb-4" />
-      <h2 className="font-semibold mt-4 mb-2">{title}</h2>
-      {selectedOption && <p className="text-sm mt-2">{description}</p>}
+      <img src={image} alt={alt} className="h-32 w-auto object-cover mx-auto mb-4" /> {/* Adjust image size */}
+      <h2 className="font-semibold mt-2 mb-2 text-sm">{title}</h2> {/* Adjust font size */}
+      {selectedOption && <p className="text-xs mt-2">{description}</p>} {/* Adjust font size */}
       <div className="flex justify-center">
         <TextboxSelector isSelected={selectedOption} onClick={selectedOption ? handleUnselect : handleOptionSelect} />
       </div>
@@ -97,7 +98,7 @@ function OptionCard({ image, alt, title, description, setShowText }) {
 function TextboxSelector({ isSelected, onClick }) {
   return (
     <div
-      className={`w-10 h-10 rounded-full flex items-center justify-center border border-pink-500 cursor-pointer ${
+      className={`w-8 h-8 rounded-full flex items-center justify-center border border-pink-500 cursor-pointer ${
         isSelected ? 'bg-pink-500 text-white' : ''
       }`}
       onClick={onClick}
